@@ -31,28 +31,35 @@ import GenerateThumbnail from "@/components/GenerateThumbnail";
 import { Loader } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
 
+const voicecategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"];
+
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  podcastTitle: z.string().min(2),
+  podcastDescription: z.string().min(2),
 });
 
 export default function CreatePodcast() {
-  const [voiceType, setVoiceType] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [imagePrompt, setImagePrompt] = useState('');
-  const [audioUrl, setAudioUrl] = useState('');
-  const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(null);
-  const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
+  const [imagePrompt, setImagePrompt] = useState("");
+  const [audioUrl, setAudioUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [audioStorageId, setAudioStorageId] = useState<Id<"_storage"> | null>(
+    null
+  );
+  const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(
+    null
+  );
   const [audioDuration, setAudioDuration] = useState(0);
+  const [voicePrompt, setVoicePrompt] = useState("");
+  const [voiceType, setVoiceType] = useState<string | null>(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      podcastTitle: "",
+      podcastDescription: "",
     },
   });
 
@@ -62,8 +69,6 @@ export default function CreatePodcast() {
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
-
-  const voicecategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"];
 
   return (
     <section className="mt-10 flex flex-col">
@@ -149,7 +154,15 @@ export default function CreatePodcast() {
             />
           </div>
           <div className="flex flex-col pt-10">
-            <GeneratePodcast />
+            <GeneratePodcast
+              setAudioStorageId={setAudioStorageId}
+              setAudio={setAudioUrl}
+              voiceType={voiceType}
+              audio={audioUrl}
+              voicePrompt={voicePrompt}
+              setVoicePrompt={setVoicePrompt}
+              setAudioDuration={setAudioDuration}
+            />
 
             <GenerateThumbnail />
           </div>
@@ -161,7 +174,7 @@ export default function CreatePodcast() {
             >
               {isSubmitting ? (
                 <>
-                  <Loader className="size animate-spin mr-1"/>
+                  <Loader className="size animate-spin mr-1" />
                   Submitting
                 </>
               ) : (
