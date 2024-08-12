@@ -85,12 +85,12 @@ export default function CreatePodcast() {
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-2.5">
                   <FormLabel className="text-16 text-white-1 font-bold">
-                    Username
+                    Title
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="input-class focus-visible:ring-orange-1"
-                      placeholder="IketheGreat"
+                      className="input-class focus-visible:ring-offset-orange-1"
+                      placeholder="Pro Podcast"
                       {...field}
                     />
                   </FormControl>
@@ -113,7 +113,7 @@ export default function CreatePodcast() {
                     className="placeholder:text-gray-1"
                   />
                 </SelectTrigger>
-                <SelectContent className="text-16 border-none bg-black-1 font-bold text-white-1 focus:ring-orange-1">
+                <SelectContent className="text-16 border-none bg-black-1 font-bold text-white-1 focus:ring-offset-orange-1">
                   {voicecategories.map((voice) => (
                     <SelectItem
                       key={voice}
@@ -143,7 +143,7 @@ export default function CreatePodcast() {
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      className="input-class focus-visible:ring-orange-1"
+                      className="input-class focus-visible:ring-offset-orange-1"
                       placeholder="Write a short description about the podcast"
                       {...field}
                     />
